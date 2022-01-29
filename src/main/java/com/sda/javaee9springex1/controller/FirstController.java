@@ -2,6 +2,7 @@ package com.sda.javaee9springex1.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,11 +43,15 @@ public class FirstController {
     // name param with value tanel
     // surname param with value korvel
     @GetMapping("/my-name")
-    public String myName(@RequestParam(value = "name", defaultValue = "Jaan") String myName,
-                         @RequestParam(value = "surname", defaultValue = "Tamm") String mySurname) {
+    public String myName(@RequestParam(value = "myFirstName", defaultValue = "Jaan") String myFirstName,
+                         @RequestParam(value = "surname", defaultValue = "Tamm") String mySurname,
+                         Model pageParameters) {
         log.info("myName() method was called!!!");
-        log.info("my name is: [{}] and my surname is: [{}]", myName, mySurname);
-        log.info(String.format("my name is: [%s] and my surname is: [%s]", myName, mySurname));
+        log.info("my name is: [{}] and my surname is: [{}]", myFirstName, mySurname);
+        log.info(String.format("my name is: [%s] and my surname is: [%s]", myFirstName, mySurname));
+
+        pageParameters.addAttribute("myName", myFirstName)
+                .addAttribute("mySurname", mySurname);
 
         return "pages/name-and-surname";
     }
