@@ -3,10 +3,13 @@ package com.sda.javaee9springex1.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
+@RequestMapping("/first")
 public class FirstController {
 
     @GetMapping({"/my-first-page", "/"})
@@ -34,16 +37,23 @@ public class FirstController {
         return "pages/third-page";
     }
 
-    // /my-name?name=tanel&surname=korvel
+
+    // my-name?name=tanel&surname=korvel
     // name param with value tanel
     // surname param with value korvel
     @GetMapping("/my-name")
-    public String myName(@RequestParam (value = "name",defaultValue = "Jaan") String myFirstName,
-                         @RequestParam (value = "surname", defaultValue = "Tamm") String mySurname) {
+    public String myName(@RequestParam(value = "name", defaultValue = "Jaan") String myName,
+                         @RequestParam(value = "surname", defaultValue = "Tamm") String mySurname) {
         log.info("myName() method was called!!!");
-        log.info("my name is: [{}] and my surname is: [{}]", myFirstName, mySurname);
-        log.info(String.format("my name is: [%$] and my surname is: [%$]", myFirstName, mySurname));
+        log.info("my name is: [{}] and my surname is: [{}]", myName, mySurname);
+        log.info(String.format("my name is: [%s] and my surname is: [%s]", myName, mySurname));
 
-        return "";
+        return "pages/name-and-surname";
+    }
+
+    @PostMapping("/my-first-post")
+    public String myFirstOtherThanGetHttpMethod() {
+        log.info("myFirstOtherThanHttpMethod() was called");
+        return "pages/post-page";
     }
 }
