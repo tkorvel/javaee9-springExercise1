@@ -5,55 +5,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
-@RequestMapping("/first")
 public class FirstController {
 
-    @GetMapping({"/my-first-page", "/"})
-    public String firstPage() {
-        log.info("firstPage() method called!!!");
+    @GetMapping({"/main-page", "/"})
+    public String mainPage() {
+        log.info("mainPage() method called!!!");
         // looking for html page inside resources/templates
         // Spring please use page: resources/templates/home-page.html
         return "home-page";
     }
 
-    @GetMapping("/my-second-page")
-    public String secondPage() {
-        log.info("secondPage() method called!!!");
-        //looking for html page inside resources/templates
-        return "second-page";
-    }
-
-   // @GetMapping("/third-page")
-   // @GetMapping(value = "/third-page")
-   // @GetMapping(value = {"/third-page"}, params = {})
-
-    @GetMapping(value = {"/third-page", "/third-too", "/abcd"})
-    public String thirdPage() {
-        log.info("thirdPage() method was called!!!");
-        return "pages/third-page";
-    }
+    @GetMapping("/personalParameters")
+    public String personalParameters(@RequestParam(value = "name", defaultValue = "Tanel") String name,
+                                     @RequestParam(value = "heightInCm", defaultValue = "180") String heightInCm,
+                                     @RequestParam(value = "weightInKg", defaultValue = "80") String weightInKg,
+                                     Model pageParameters) {
 
 
-    // my-name?name=tanel&surname=korvel
-    // name param with value tanel
-    // surname param with value korvel
-    @GetMapping("/my-name")
-    public String myName(@RequestParam(value = "myFirstName", defaultValue = "Jaan") String myFirstName,
-                         @RequestParam(value = "surname", defaultValue = "Tamm") String mySurname,
-                         Model pageParameters) {
-        log.info("myName() method was called!!!");
-        log.info("my name is: [{}] and my surname is: [{}]", myFirstName, mySurname);
-        log.info(String.format("my name is: [%s] and my surname is: [%s]", myFirstName, mySurname));
+        log.info("personalParameters() method was called!!!");
+        log.info("my name is: [{}]", name);
+        log.info("my height in cm is: [{}]", heightInCm);
+        log.info("my weight in kg is: [{}]", weightInKg);
+        log.info(String.format("my name is: [%s] my height is: [%s] and my weight is: [%s]", name, heightInCm, weightInKg));
 
-        pageParameters.addAttribute("myName", myFirstName)
-                .addAttribute("mySurname", mySurname);
+        pageParameters.addAttribute("name", name)
+                .addAttribute("heightInCm", heightInCm)
+                .addAttribute("weightInKg", weightInKg);
 
-        return "pages/name-and-surname";
+        return "dataInMetricSys";
     }
 
     @PostMapping("/my-first-post")
